@@ -1,0 +1,13 @@
+/* Tipografia Maximalista Mística */
+
+/* 1. Serif Elegante - Playfair Display para títulos */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+
+/* 2. Sans-serif Moderna - Inter para textos */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* 3. Fonte Decorativa - Cinzel Decorative para detalhes místicos */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
+
+/* 4. Fonte Script para elementos especiais */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400;1,500&display=swap');
