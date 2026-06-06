@@ -19,46 +19,186 @@ import { BlogArticlePage } from './components/BlogArticlePage';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, ArrowUp } from 'lucide-react';
 
+const DEFAULT_BLOG_SLUG = 'silencio-tambem-e-resposta';
+
+const PAGE_PATHS: Partial<Record<Page, string>> = {
+  inicio: '/',
+  sobre: '/sobre',
+  'como-funciona': '/como-funciona',
+  valores: '/valores',
+  politica: '/politica-de-consulta',
+  depoimentos: '/depoimentos',
+  contato: '/contato',
+  faq: '/faq',
+  termos: '/termos-de-uso',
+  privacidade: '/politica-de-privacidade',
+  blog: '/blog',
+  'blog-artigos': '/blog/artigos',
+};
+
+const PATH_ROUTES: Record<string, Page> = {
+  '/': 'inicio',
+  '/sobre': 'sobre',
+  '/como-funciona': 'como-funciona',
+  '/valores': 'valores',
+  '/politica-de-consulta': 'politica',
+  '/depoimentos': 'depoimentos',
+  '/contato': 'contato',
+  '/faq': 'faq',
+  '/termos-de-uso': 'termos',
+  '/politica-de-privacidade': 'privacidade',
+  '/blog': 'blog',
+  '/blog/artigos': 'blog-artigos',
+};
+
+const LEGACY_HASH_PATHS: Record<string, string> = {
+  inicio: '/',
+  home: '/',
+  sobre: '/sobre',
+  'como-funciona': '/como-funciona',
+  valores: '/valores',
+  politica: '/politica-de-consulta',
+  'politica-de-consulta': '/politica-de-consulta',
+  depoimentos: '/depoimentos',
+  contato: '/contato',
+  faq: '/faq',
+  termos: '/termos-de-uso',
+  'termos-de-uso': '/termos-de-uso',
+  privacidade: '/politica-de-privacidade',
+  'politica-de-privacidade': '/politica-de-privacidade',
+  blog: '/blog',
+  'blog/artigos': '/blog/artigos',
+};
+
+type RouteState = {
+  tab: Page;
+  slug?: string;
+  replacePath?: string;
+};
+
+function safeDecode(value: string) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+function normalizePath(pathname: string) {
+  const decodedPath = safeDecode(pathname);
+  return decodedPath.replace(/\/+$/, '') || '/';
+}
+
+function getPathForRoute(tab: Page, slug?: string) {
+  if (tab === 'blog-leitura') {
+    return `/blog/${slug || DEFAULT_BLOG_SLUG}`;
+  }
+
+  return PAGE_PATHS[tab] || '/';
+}
+
+function getRouteFromPath(pathname: string): RouteState {
+  const cleanPath = normalizePath(pathname);
+
+  if (cleanPath === '/inicio') {
+    return { tab: 'inicio', replacePath: '/' };
+  }
+
+  const mappedTab = PATH_ROUTES[cleanPath];
+
+  if (mappedTab) {
+    return { tab: mappedTab };
+  }
+
+  if (cleanPath.startsWith('/blog/')) {
+    const slug = cleanPath.replace('/blog/', '');
+
+    if (slug) {
+      return { tab: 'blog-leitura', slug };
+    }
+  }
+
+  return { tab: 'inicio' };
+}
+
+function getRouteFromHash(hash: string): RouteState | null {
+  const cleanHash = safeDecode(hash.replace(/^#/, '').replace(/^\/+/, '').replace(/\/+$/, ''));
+
+  if (!cleanHash) {
+    return null;
+  }
+
+  if (cleanHash.startsWith('blog/')) {
+    const slug = cleanHash.replace('blog/', '');
+
+    if (slug === 'artigos') {
+      return { tab: 'blog-artigos', replacePath: '/blog/artigos' };
+    }
+
+    if (slug) {
+      return { tab: 'blog-leitura', slug, replacePath: `/blog/${slug}` };
+    }
+  }
+
+  const mappedPath = LEGACY_HASH_PATHS[cleanHash];
+
+  if (mappedPath) {
+    const route = getRouteFromPath(mappedPath);
+    return { ...route, replacePath: mappedPath };
+  }
+
+  const route = getRouteFromPath(`/${cleanHash}`);
+  const path = getPathForRoute(route.tab, route.slug);
+
+  return { ...route, replacePath: path };
+}
+
+function getRouteFromLocation(): RouteState {
+  const hashRoute = getRouteFromHash(window.location.hash);
+
+  if (hashRoute) {
+    return hashRoute;
+  }
+
+  return getRouteFromPath(window.location.pathname);
+}
+
+function getInitialRoute(): RouteState {
+  if (typeof window === 'undefined') {
+    return { tab: 'inicio' };
+  }
+
+  return getRouteFromLocation();
+}
+
 export default function App() {
-  const [currentTab, setTab] = useState<Page>('inicio');
-  const [selectedSlug, setSelectedSlug] = useState<string>('silencio-tambem-e-resposta');
+  const [currentTab, setTab] = useState<Page>(() => getInitialRoute().tab);
+  const [selectedSlug, setSelectedSlug] = useState<string>(() => getInitialRoute().slug || DEFAULT_BLOG_SLUG);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const isBlog = currentTab === 'blog' || currentTab === 'blog-artigos' || currentTab === 'blog-leitura';
 
-  // Monitor tab change via hash to make internal links or external loads easy to route
+  // Sync clean URL paths with the current SPA view, including legacy hash redirects.
   useEffect(() => {
-    const handleHashChange = () => {
-      const hashRaw = window.location.hash.replace('#', '');
-      
-      if (hashRaw === 'blog') {
-        setTab('blog');
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      } else if (hashRaw === 'blog/artigos') {
-        setTab('blog-artigos');
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      } else if (hashRaw.startsWith('blog/')) {
-        const slug = hashRaw.replace('blog/', '');
-        setSelectedSlug(slug);
-        setTab('blog-leitura');
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      } else {
-        const validTabs: Page[] = [
-          'inicio', 'sobre', 'como-funciona', 'valores', 
-          'politica', 'depoimentos', 'contato', 'faq', 
-          'termos', 'privacidade'
-        ];
-        if (validTabs.includes(hashRaw as Page)) {
-          setTab(hashRaw as Page);
-          window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-        }
+    const syncRoute = () => {
+      const route = getRouteFromLocation();
+
+      if (route.replacePath) {
+        window.history.replaceState(null, '', route.replacePath);
       }
+
+      if (route.tab === 'blog-leitura') {
+        setSelectedSlug(route.slug || DEFAULT_BLOG_SLUG);
+      }
+
+      setTab(route.tab);
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     };
 
-    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', syncRoute);
     
     // Initial load check
-    handleHashChange();
+    syncRoute();
 
     // Scroll display monitor
     const handleScroll = () => {
@@ -71,7 +211,7 @@ export default function App() {
     window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('popstate', syncRoute);
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
@@ -97,19 +237,21 @@ export default function App() {
     };
   }, [currentTab, selectedSlug]);
 
-  // Update hash dynamically on tab changes
   const handleTabChange = (newTab: Page, extraSlug?: string) => {
+    const nextSlug = newTab === 'blog-leitura' ? (extraSlug || selectedSlug || DEFAULT_BLOG_SLUG) : extraSlug;
+    const nextPath = getPathForRoute(newTab, nextSlug);
+
     setTab(newTab);
-    if (newTab === 'blog') {
-      window.location.hash = 'blog';
-    } else if (newTab === 'blog-artigos') {
-      window.location.hash = 'blog/artigos';
-    } else if (newTab === 'blog-leitura' && extraSlug) {
-      setSelectedSlug(extraSlug);
-      window.location.hash = `blog/${extraSlug}`;
-    } else {
-      window.location.hash = newTab;
+
+    if (newTab === 'blog-leitura') {
+      setSelectedSlug(nextSlug || DEFAULT_BLOG_SLUG);
     }
+
+    if (window.location.pathname !== nextPath || window.location.hash) {
+      window.history.pushState(null, '', nextPath);
+    }
+
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   };
 
   const scrollToTop = () => {

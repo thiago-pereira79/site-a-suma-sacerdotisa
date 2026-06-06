@@ -744,7 +744,6 @@ export function HeroSection({ setTab }: HeroSectionProps) {
 
   function handleTabClick(tab: Page) {
     setTab(tab);
-    window.location.hash = tab;
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }
 }

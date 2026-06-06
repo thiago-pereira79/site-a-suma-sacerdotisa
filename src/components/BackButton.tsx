@@ -13,16 +13,17 @@ export function BackButton({ onClick, variant, className = "pb-4 sm:pb-5" }: Bac
       e.preventDefault();
       onClick();
     } else {
-      // Direct SPA navigation to Home via Hash Changes
       e.preventDefault();
-      window.location.hash = 'inicio';
+      window.history.pushState(null, '', '/');
+      window.dispatchEvent(new Event('popstate'));
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }
   };
 
   return (
     <div className={`flex justify-start select-none ${className}`}>
       <motion.a
-        href="#inicio"
+        href="/"
         onClick={handleClick}
         whileHover={{ y: -1 }}
         whileTap={{ scale: 0.98 }}
