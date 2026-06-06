@@ -1,0 +1,6 @@
+{
+  "name": "A Suma Sacerdotisa",
+  "description": "Tarot Terapêutico para autoconhecimento, cura e direcionamento.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

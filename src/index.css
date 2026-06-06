@@ -1,0 +1,514 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-cinzel: "Cinzel", Georgia, serif;
+  
+  --color-warm-black: #11100C;
+  --color-paper: #F3EBDD;
+  --color-coffee: #4A3428;
+  --color-bordeaux: #5A1F2E;
+  --color-gold: #D6AF2A;
+  --color-mustard: #D6AF2A;
+  --color-olive: #6F7A4E;
+  --color-terracotta: #B75E3C;
+}
+
+@layer base {
+  body {
+    background-color: #11100C;
+    color: #F3EBDD;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    scrollbar-width: auto;
+    scrollbar-color: #4A3428 #11100C;
+  }
+
+  /* Custom elegant scrollbar */
+  ::-webkit-scrollbar {
+    width: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #11100C;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #4A3428;
+    border-radius: 5.5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #D6AF2A;
+  }
+}
+
+/* --- HIDE VISUAL SCROLLBAR ON MOBILE & TABLET (UP TO 1180px) --- */
+@media (max-width: 1180px) {
+  html,
+  body,
+  * {
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important;  /* IE/Edge antiga */
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
+/* Boho / Paper / Scrapbook tactile ornaments */
+.boho-tape {
+  position: absolute;
+  background: rgba(243, 235, 221, 0.45);
+  backdrop-filter: blur(1px);
+  border-left: 1px dashed rgba(74, 52, 40, 0.2);
+  border-right: 1px dashed rgba(74, 52, 40, 0.2);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transform: rotate(-1.5deg);
+  z-index: 10;
+}
+
+.boho-tape-horizontal {
+  width: 90px;
+  height: 24px;
+}
+
+/* Binder ring / loose notebook decoration */
+.boho-ring {
+  width: 14px;
+  height: 28px;
+  border: 2px solid #4A3428;
+  border-radius: 999px;
+  background: transparent;
+  display: inline-block;
+  box-shadow: inset -1px 1px 2px rgba(255,255,255,0.4), 1px 1px 2px rgba(0,0,0,0.15);
+}
+
+/* Paperclip representation */
+.boho-paperclip {
+  width: 14px;
+  height: 40px;
+  border: 1.5px solid #8e8577;
+  border-radius: 20px;
+  position: relative;
+}
+.boho-paperclip::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 3px;
+  width: 6px;
+  height: 25px;
+  border: 1.5px solid #8e8577;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Warm, elegant separators and lines */
+.mistic-separator {
+  height: 1.5px;
+  background: #D6AF2A;
+  opacity: 0.25;
+}
+
+.mistic-separator-opaque {
+  height: 1.5px;
+  background: #D6AF2A;
+  opacity: 0.35;
+}
+
+/* Cozy layout structures, no gradients/glows */
+.boho-ritual-glow {
+  background-color: #F3EBDD;
+}
+
+/* Quick utility for handmade borders */
+.boho-border-hand {
+  border: 1px solid rgba(74, 52, 40, 0.15);
+}
+.boho-border-hand-light {
+  border: 1px solid rgba(243, 235, 221, 0.12);
+}
+
+/* --- ESTILOS ESPECÍFICOS DE DEPOIMENTOS --- */
+:root {
+  --testimonial-paper-light: #F1E5D6;
+  --testimonial-paper-aged: #E4D1BA;
+  --testimonial-kraft: #C9A06E;
+  --testimonial-caramel: #C29968;
+
+  --testimonial-olive: #454425;
+  --testimonial-olive-deep: #414022;
+
+  --testimonial-bordeaux: #5A2418;
+  --testimonial-bordeaux-deep: #542016;
+
+  --testimonial-ink: #1F1A14;
+  --testimonial-gold: #D6AF2A;
+  --testimonial-tape: #D8BE94;
+  --testimonial-background: #F3EBDD;
+}
+
+/* Cores e estilos dos cards de depoimento (com leves irregularidades de cantos removendo o arredondamento liso pixel-perfeito) */
+.card-paper-light {
+  background-color: #E5D5B8;
+  color: #1F1A14;
+}
+
+.card-paper-aged {
+  background-color: #E4D1BA;
+  color: #1F1A14;
+}
+
+.card-kraft {
+  background-color: #C9A06E;
+  color: #1F1A14;
+}
+
+.card-caramel {
+  background-color: #C29968;
+  color: #1F1A14;
+}
+
+.card-olive {
+  background-color: #333F23;
+  color: #F1E5D6;
+}
+
+.card-olive-deep {
+  background-color: #2A341D;
+  color: #F1E5D6;
+}
+
+.card-brown {
+  background-color: #4A3428;
+  color: #F1E5D6;
+}
+
+.card-brown-deep {
+  background-color: #3A2018;
+  color: #F1E5D6;
+}
+
+.card-bordeaux {
+  background-color: #4A1B16;
+  color: #F1E5D6;
+}
+
+.card-bordeaux-deep {
+  background-color: #3F1612;
+  color: #F1E5D6;
+}
+
+
+/* Custom class to completely disable and remove textures and pseudo-element overlays from cards */
+.hero-no-texture {
+  position: relative;
+}
+
+.hero-no-texture::before,
+.hero-no-texture::after {
+  content: none !important;
+  display: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Textura tátil realista de papel scrapbook usando multi-camadas de ruído fractal e fibras delicadas */
+.scrapbook-texture {
+  position: relative;
+  isolation: isolate;
+}
+
+.scrapbook-texture > * {
+  position: relative;
+  z-index: 10;
+}
+
+/* Base structures for pseudo-elements representing genuine fiber textures and edge-aging shades */
+.scrapbook-texture::before,
+.scrapbook-texture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.scrapbook-texture::before {
+  z-index: 1;
+  opacity: 0.95;
+}
+
+.scrapbook-texture::after {
+  z-index: 2;
+  opacity: 0.95;
+}
+
+/* --- TEXTURES AND AGING FOR LIGHT PAPERS (Paper Light, Paper Aged, Kraft, Caramel) --- */
+.card-paper-light::before,
+.card-paper-aged::before,
+.card-kraft::before,
+.card-caramel::before {
+  content: none !important;
+  display: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.card-paper-light::after,
+.card-paper-aged::after,
+.card-kraft::after,
+.card-caramel::after {
+  content: none !important;
+  display: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* --- TEXTURES AND WEAR FOR DIALECTIC DARK PAPERS (Green and Bordeaux) --- */
+.card-olive::before,
+.card-olive-deep::before,
+.card-brown::before,
+.card-brown-deep::before,
+.card-bordeaux::before,
+.card-bordeaux-deep::before {
+  content: none !important;
+  display: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.card-olive::after,
+.card-olive-deep::after,
+.card-brown::after,
+.card-brown-deep::after,
+.card-bordeaux::after,
+.card-bordeaux-deep::after {
+  content: none !important;
+  display: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Fita crepe do Scrapbook com pontas realista rasgadas de forma manual */
+.scrapbook-tape {
+  position: absolute;
+  background-color: rgba(218, 196, 160, 0.82);
+  backdrop-filter: blur(1.5px);
+  /* clip-path model para simular o picote irregular de quando rasgamos com a mão */
+  clip-path: polygon(
+    0% 5%, 6% 12%, 14% 6%, 23% 13%, 34% 7%, 46% 12%, 58% 6%, 70% 11%, 82% 5%, 91% 10%, 100% 4%,
+    99% 94%, 93% 89%, 84% 95%, 72% 90%, 61% 94%, 48% 89%, 36% 95%, 25% 90%, 12% 94%, 0% 88%
+  );
+  box-shadow: 
+    0 1px 3px rgba(31, 26, 20, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  border-left: 1px dashed rgba(74, 52, 40, 0.12);
+  border-right: 1px dashed rgba(74, 52, 40, 0.12);
+  z-index: 20;
+}
+
+/* Clipes de papel metálicos realistas com brilho e relevo sutil */
+.scrapbook-paperclip {
+  width: 14px;
+  height: 40px;
+  background: transparent;
+  border: 1.8px solid #8B8272;
+  border-radius: 20px;
+  position: relative;
+  z-index: 30;
+  box-shadow: -1px 2px 2px rgba(31, 26, 20, 0.15);
+}
+.scrapbook-paperclip::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 3px;
+  width: 5px;
+  height: 24px;
+  border: 1.8px solid #8B8272;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Três formatos exclusivos de corte manual/rasgado de papel (deckle edges) */
+.card-torn-1 {
+  clip-path: polygon(
+    0% 1.2%, 8% 0.8%, 15% 1.5%, 25% 0.9%, 35% 1.4%, 48% 0.7%, 58% 1.5%, 68% 0.8%, 79% 1.3%, 89% 0.7%, 100% 1.1%,
+    99.2% 12%, 98.5% 22%, 99.3% 35%, 98.6% 48%, 99.4% 60%, 98.5% 72%, 99.2% 85%, 98.7% 94%, 100% 99%,
+    88% 99.2%, 78% 98.5%, 68% 99.3%, 58% 98.7%, 45% 99.4%, 32% 98.5%, 20% 99.1%, 10% 98.6%, 0% 98.8%,
+    0.8% 88%, 1.4% 75%, 0.7% 62%, 1.5% 48%, 0.9% 35%, 1.6% 22%, 0.8% 10%
+  );
+}
+
+.card-torn-2 {
+  clip-path: polygon(
+    0% 0.8%, 12% 1.4%, 22% 0.7%, 32% 1.2%, 45% 0.6%, 58% 1.3%, 70% 0.8%, 82% 1.4%, 92% 0.7%, 100% 1.3%,
+    98.7% 10%, 99.4% 23%, 98.6% 38%, 99.2% 52%, 98.5% 65%, 99.3% 78%, 98.6% 88%, 100% 99.2%,
+    90% 98.6%, 80% 99.3%, 68% 98.5%, 52% 99.1%, 38% 98.6%, 25% 99.4%, 12% 98.7%, 0% 99.4%,
+    1.3% 90%, 0.7% 78%, 1.5% 65%, 0.8% 52%, 1.4% 38%, 0.6% 24%, 1.3% 12%
+  );
+}
+
+.card-torn-3 {
+  clip-path: polygon(
+    0% 1.5%, 10% 0.7%, 20% 1.3%, 30% 0.8%, 42% 1.4%, 55% 0.7%, 68% 1.2%, 80% 0.6%, 90% 1.3%, 100% 0.8%,
+    99.3% 8%, 98.6% 20%, 99.2% 32%, 98.5% 45%, 99.4% 58%, 98.7% 70%, 99.2% 82%, 98.5% 92%, 100% 98.7%,
+    92% 99.2%, 82% 98.5%, 70% 99.3%, 58% 98.6%, 42% 99.2%, 28% 98.5%, 15% 99.3%, 0% 98.5%,
+    0.7% 92%, 1.4% 80%, 0.8% 68%, 1.3% 55%, 0.6% 42%, 1.2% 28%, 0.7% 15%
+  );
+}
+
+/* --- TABLET/IPAD EXCLUSIVE DRAWER MENU FIXES --- */
+
+/* Target tablet screens from 768px up to 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  
+  /* Force mobile hamburger visibility and hide the inline desktop list */
+  .desktop-nav {
+    display: none !important;
+  }
+  
+  .mobile-hamburger {
+    display: block !important;
+  }
+  
+  .mobile-menu-container {
+    display: block !important;
+  }
+  
+  /* Restructure the full viewport drawer to render as a floating content card */
+  .suma-tablet-menu-panel {
+    position: fixed !important;
+    z-index: 9999 !important;
+    left: auto !important;
+    bottom: auto !important;
+    right: 32px !important;
+    top: 32px !important;
+ 
+    background: #FAF5EC !important; /* Elegant off-white/beige */
+    color: #11100C !important;
+    border-radius: 24px !important;
+    border: 1.5px solid rgba(214, 175, 42, 0.25) !important;
+    overflow: hidden !important;
+ 
+    display: flex !important;
+    flex-direction: column !important;
+ 
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28) !important;
+    
+    width: min(48vw, 500px) !important;
+    min-width: 380px !important;
+    height: auto !important;
+    max-height: calc(100dvh - 48px) !important;
+  }
+ 
+  /* Internal header of the panel */
+  .suma-tablet-menu-panel .shrink-0 {
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+    background: #FAF5EC !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  }
+ 
+  .suma-tablet-menu-links {
+    overflow-y: auto !important;
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+    max-height: calc(100dvh - 140px) !important;
+  }
+ 
+  .suma-tablet-menu-links button,
+  .suma-tablet-menu-links a {
+    font-size: 14.5px !important;
+    line-height: 1.2 !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 6px !important;
+    letter-spacing: 0.12em !important;
+  }
+}
+ 
+/* Specific adjustment for Tablet/iPad portrait orientation */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  .suma-tablet-menu-panel {
+    top: 24px !important;
+    right: 32px !important;
+    width: min(58vw, 500px) !important;
+    min-width: 430px !important;
+    max-width: calc(100dvw - 64px) !important;
+    height: auto !important;
+    max-height: calc(100dvh - 48px) !important;
+  }
+ 
+  .suma-tablet-menu-links {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    max-height: calc(100dvh - 150px) !important;
+  }
+ 
+  .suma-tablet-menu-links button {
+    padding-top: 13px !important;
+    padding-bottom: 13px !important;
+    font-size: 14.5px !important;
+    margin-bottom: 8px !important;
+  }
+}
+ 
+/* Specific adjustment for Tablet/iPad landscape orientation */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+  .suma-tablet-menu-panel {
+    top: 24px !important;
+    right: 32px !important;
+    bottom: auto !important;
+    left: auto !important;
+ 
+    width: clamp(420px, 36vw, 500px) !important;
+    min-width: 420px !important;
+    max-width: 500px !important;
+ 
+    height: calc(100dvh - 48px) !important;
+    min-height: auto !important;
+    max-height: calc(100dvh - 48px) !important;
+ 
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+ 
+    border-radius: 24px !important;
+    background: #FAF5EC !important; /* Elegant off-white/beige used globally for drawer */
+  }
+ 
+  .suma-tablet-menu-panel .shrink-0 {
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+  }
+ 
+  .suma-tablet-menu-links {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 18px 28px 26px !important;
+    overflow-y: auto !important;
+    max-height: calc(100dvh - 120px) !important;
+  }
+ 
+  .suma-tablet-menu-links button {
+    width: 100% !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    margin-top: 0 !important;
+    margin-bottom: 5px !important;
+  }
+}
+
+
